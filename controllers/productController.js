@@ -1,16 +1,20 @@
 const Product = require("../models/productModel");
 const User = require("../models/userModel");
+const mongoose = require("mongoose");
 
 // Mahsulot qo'shish
 exports.createProduct = async (req, res, next) => {
   try {
-    const { name, price, description, countInStock } = req.body;
+    const { name, price, description, countInStock, category, brand } =
+      req.body;
     const product = new Product({
       name,
       price,
       description,
       image: req.file.path,
       countInStock,
+      brand,
+      category,
       user: req.user._id, // Foydalanuvchi ID-si
     });
 
@@ -48,7 +52,8 @@ exports.getProductById = async (req, res, next) => {
       res.json(product);
     }
   } catch (error) {
-    next(error);
+    res.status(404).json({ message: "Product not found" });
+    // next(error);
   }
 };
 
