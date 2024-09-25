@@ -5,16 +5,17 @@ const mongoose = require("mongoose");
 // Mahsulot qo'shish
 exports.createProduct = async (req, res, next) => {
   try {
-    const { name, price, description, countInStock, category, brand } =
-      req.body;
+    const { name, description, pages, published, image } = req.body;
     const product = new Product({
       name,
-      price,
+      // price,
       description,
-      image: req.file.path,
-      countInStock,
-      brand,
-      category,
+      image,
+      // countInStock,
+      // brand,
+      // category,
+      pages,
+      published,
       user: req.user._id, // Foydalanuvchi ID-si
     });
 
@@ -60,7 +61,7 @@ exports.getProductById = async (req, res, next) => {
 // Mahsulotni yangilash
 exports.updateProduct = async (req, res, next) => {
   try {
-    const { name, price, description, countInStock } = req.body;
+    const { name, description, pages, published, image } = req.body;
     const product = await Product.findById(req.params.id);
 
     if (!product) {
@@ -69,9 +70,12 @@ exports.updateProduct = async (req, res, next) => {
     }
 
     product.name = name;
-    product.price = price;
+    // product.price = price;
+    product.pages = pages;
     product.description = description;
-    product.countInStock = countInStock;
+    product.published = published;
+    product.image = image;
+    // product.countInStock = countInStock;
     if (req.file) {
       product.image = req.file.path;
     }
@@ -87,6 +91,7 @@ exports.updateProduct = async (req, res, next) => {
 exports.deleteProduct = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id);
+    console.log(product);
 
     if (!product) {
       res.status(404).json({ message: "Product not found" });

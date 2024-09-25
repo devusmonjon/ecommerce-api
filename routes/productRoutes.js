@@ -26,6 +26,6 @@ router.get("/:id", getProductById);
 router.put("/:id", protect, upload.single("image"), updateProduct);
 
 // Mahsulotni o'chirish
-router.delete("/:id", protect, admin, deleteProduct);
+router.delete("/:id", protect, /*admin,*/ deleteProduct);
 
 module.exports = router;
